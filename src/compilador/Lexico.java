@@ -1,15 +1,8 @@
 package compilador;
 
-import java.io.StringReader;
-
 public class Lexico implements Constants {
 	private int position;
 	private String input;
-
-	//custom
-	public int getLine(int pos) {
-		return input.substring(0, pos).split("\\r?\\n").length;
-	}
 
 	public Lexico() {
 		this(new java.io.StringReader(""));
@@ -33,6 +26,8 @@ public class Lexico implements Constants {
 		}
 
 		setPosition(0);
+		// custom
+		Memory.getInstance().setInput(this.input);
 	}
 
 	public void setPosition(int pos) {
@@ -65,13 +60,12 @@ public class Lexico implements Constants {
 			}
 		}
 		if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
-			/*custom*/
-			Memory.getInstance().setLastLexeme(' '); 
+			/* custom */
+			Memory.getInstance().setLastLexeme(' ');
 			if (lastState == 0) {
 				Memory.getInstance().setLastLexeme(input.charAt(position - 1)); // custom
 			}
-			Memory.getInstance().setErrorLine(getLine(start + 1)); // custom
-			System.out.println("posss" + start);
+			Memory.getInstance().setErrorLine(start); // custom
 			/**/
 			throw new LexicalError(SCANNER_ERROR[lastState], start);
 		}

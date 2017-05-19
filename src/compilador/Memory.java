@@ -16,6 +16,8 @@ public class Memory {
 
 	private char lastLexeme;
 	private int errorLine;
+	private String input;
+	private String lastToken;
 
 	public char getLastLexeme() {
 		return this.lastLexeme;
@@ -28,9 +30,21 @@ public class Memory {
 	public int getErrorLine() {
 		return this.errorLine;
 	}
-	
-	public void setErrorLine(int line) {
-		this.errorLine = line;
+
+	public void setErrorLine(int pos) {
+		this.errorLine = input.substring(0, pos + 1).split("\\r?\\n").length;
+	}
+
+	public void setLastToken(String lexeme) {
+		this.lastToken = lexeme;
+	}
+
+	public String getLastToken() {
+		return this.lastToken;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
 	}
 
 }

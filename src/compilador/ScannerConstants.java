@@ -1,4 +1,5 @@
 package compilador;
+
 public interface ScannerConstants
 {
     int[] SCANNER_TABLE_INDEXES = 
@@ -1611,16 +1612,16 @@ public interface ScannerConstants
         {255, 29}
     };
 
-    int[] TOKEN_STATE = {-2,  0, -1,  6, 47, 48, 35, 33, 37, 34, 36,  3,  3, 38, 39, 43, 41, 45,  2,  5, -1, -2, -1, 40, 44, 42, 46,  2,  2, -2, -2,  4, -2,  7 };
+    int[] TOKEN_STATE = {-2,  0, -1,  0, 45, 46, 33, 31, 35, 32, 34,  3,  3, 36, 37, 41, 39, 43,  2,  5, -1, -2, -1, 38, 42, 40, 44,  2,  2, -2, -2,  4, -2,  0 };
 
     int[] SPECIAL_CASES_INDEXES =
-        { 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 };
+        { 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 };
 
     String[] SPECIAL_CASES_KEYS =
         {  "ALGORITMO", "ATÉ", "CARACTER", "E", "ENTÃO", "ESCREVA", "FALSO", "FIM", "FUNÇÃO", "INTEIRO", "INTERROMPA", "INÍCIO", "LEIA", "LÓGICO", "NÃO", "OU", "PROCEDIMENTO", "QUEBRA", "REAL", "REPITA", "RETORNE", "SE", "SENÃO", "VARIÁVEIS", "VERDADEIRO" };
 
     int[] SPECIAL_CASES_VALUES =
-        {  8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
+        {  6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };
 
     String[] SCANNER_ERROR =
     {

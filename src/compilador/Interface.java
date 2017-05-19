@@ -34,7 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author Rafael
+ * @author Rafael and Hellton
  */
 public class Interface extends javax.swing.JFrame {
 
@@ -322,26 +322,59 @@ public class Interface extends javax.swing.JFrame {
 		areaMensagens.setText("");
 		String str = editorTexto.getText();
 		str = str.replace("\n", "").replace("\r", "").replace("\t", "").replace(" ", "");
-		if(str.length() <= 0) {
+		if (str.length() <= 0) {
 			areaMensagens.setText("nenhum programa para compilar");
 			return;
 		}
-		
+
 		LineNumberReader in = new LineNumberReader(new StringReader(editorTexto.getText()));
 
 		compilar(in);
 	}// GEN-LAST:event_btnCompilarActionPerformed
 
 	private void compilar(LineNumberReader in) {
-		String lines[];
-		
-		
-		
+		Lexico lexico = new Lexico();
+		Sintatico sintatico = new Sintatico();
+		Semantico semantico = new Semantico();
+
+		lexico.setInput(in);
+
+		try {
+			sintatico.parse(lexico, semantico);
+		} catch (LexicalError e) {
+			// Trada erros léxicos
+			char lastLexeme = Memory.getInstance().getLastLexeme();
+			int errorLine = Memory.getInstance().getErrorLine();
+
+			String msg;
+			if (lastLexeme == ' ') {
+				msg = "Erro na linha " + errorLine + " - " + e.getMessage();
+			} else {
+				msg = "Erro na linha " + errorLine + " - " + lastLexeme + " " + e.getMessage();
+			}
+			areaMensagens.setText(msg);
+			e.printStackTrace();
+		} catch (SyntaticError e) {
+			// Trada erros sintáticos
+			String lastToken = Memory.getInstance().getLastToken();
+			int errorLine = Memory.getInstance().getErrorLine();
+
+			areaMensagens.setText("Erro na linha " + errorLine + " - encontrado " + lastToken + " " + e.getMessage());
+			e.printStackTrace();
+		} catch (SemanticError e) {
+			// Trada erros semânticos
+			e.printStackTrace();
+		}
+
+		if (areaMensagens.getText().equals("")) {
+			areaMensagens.setText("programa compilado com sucesso");
+		}
+	}
+
+	private void compilarLexico(LineNumberReader in) {
 		Lexico lexico = new Lexico();
 		Sintatico sintatico = new Sintatico();
 		// Semantico semantico = new Semantico();
-
-		int lineNumber = 1;
 
 		// LÉXICO
 		try {
@@ -354,7 +387,7 @@ public class Interface extends javax.swing.JFrame {
 		} catch (LexicalError e) {
 			char lastLexeme = Memory.getInstance().getLastLexeme();
 			int errorLine = Memory.getInstance().getErrorLine();
-			
+
 			String msg;
 			if (lastLexeme == ' ') {
 				msg = "Erro na linha " + errorLine + " - " + e.getMessage();
