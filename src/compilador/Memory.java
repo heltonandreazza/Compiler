@@ -18,6 +18,7 @@ public class Memory {
 	private int errorLine;
 	private String input;
 	private String lastToken;
+	private String lastFileName;
 
 	public char getLastLexeme() {
 		return this.lastLexeme;
@@ -45,6 +46,14 @@ public class Memory {
 
 	public void setInput(String input) {
 		this.input = input;
+	}
+
+	public String getLastFileName() {
+		return lastFileName;
+	}
+
+	public void setLastFileName(String lastFileName) {
+		this.lastFileName = lastFileName;
 	}
 
 }

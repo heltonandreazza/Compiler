@@ -61,6 +61,16 @@ public class Interface extends javax.swing.JFrame {
 	private JFileChooser loadedFile;
 	private int initialLength;
 
+	public String getNameFile() {
+		if (loadedFile.getSelectedFile() == null) {
+			return null;
+		}
+		// se o arquivo ja foi salvo
+		String name = loadedFile.getSelectedFile().getName();
+		name = name.replaceAll(".txt", "");
+		return name;
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -319,6 +329,14 @@ public class Interface extends javax.swing.JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCompilarActionPerformed
+		//salva nome do arquivo para pegar nas actions fo semantico
+		Memory.getInstance().setLastFileName(getNameFile());
+
+		if (loadedFile.getSelectedFile() == null) {
+			areaMensagens.setText("é necessário salvar o arquivo para compilar");
+			return;
+		}
+
 		areaMensagens.setText("");
 		String str = editorTexto.getText();
 		str = str.replace("\n", "").replace("\r", "").replace("\t", "").replace(" ", "");
@@ -363,6 +381,11 @@ public class Interface extends javax.swing.JFrame {
 			e.printStackTrace();
 		} catch (SemanticError e) {
 			// Trada erros semânticos
+			char lastLexeme = Memory.getInstance().getLastLexeme();
+			int errorLine = Memory.getInstance().getErrorLine();
+
+			String msg = "Erro na linha " + errorLine + " - " + e.getMessage();
+			areaMensagens.setText(msg);
 			e.printStackTrace();
 		}
 

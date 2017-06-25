@@ -27,7 +27,8 @@ public class Sintatico implements Constants {
 			if (previousToken != null)
 				pos = previousToken.getPosition() + previousToken.getLexeme().length();
 
-			currentToken = new Token(DOLLAR, "$", pos);
+			currentToken = new Token(DOLLAR, "fim de arquivo", pos);
+			// currentToken = new Token(DOLLAR, "$", pos);
 		}
 
 		int x = ((Integer) stack.pop()).intValue();
@@ -48,6 +49,7 @@ public class Sintatico implements Constants {
 				// custom
 				Memory.getInstance().setLastToken(currentToken.getLexeme());
 				Memory.getInstance().setErrorLine(currentToken.getPosition());
+
 				throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
 			}
 		} else if (isNonTerminal(x)) {
@@ -57,10 +59,17 @@ public class Sintatico implements Constants {
 				// custom
 				Memory.getInstance().setLastToken(currentToken.getLexeme());
 				Memory.getInstance().setErrorLine(currentToken.getPosition());
+
 				throw new SyntaticError(PARSER_ERROR[x], currentToken.getPosition());
 			}
 		} else // isSemanticAction(x)
 		{
+			// custom
+			if (previousToken != null) {
+				Memory.getInstance().setLastToken(previousToken.getLexeme());
+				Memory.getInstance().setErrorLine(previousToken.getPosition());
+			}
+
 			semanticAnalyser.executeAction(x - FIRST_SEMANTIC_ACTION, previousToken);
 			return false;
 		}

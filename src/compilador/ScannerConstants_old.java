@@ -1,6 +1,6 @@
 package compilador;
 
-public interface ScannerConstants
+public interface ScannerConstants_old
 {
     int[] SCANNER_TABLE_INDEXES = 
     {
@@ -1643,7 +1643,7 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "",	
+        "",
         "",
         "constante caracter inválida ou não finalizada",
         "comentário de bloco inválido ou não finalizado",
