@@ -1,0 +1,38 @@
+algoritmo "exemplo 01"
+início
+ escreva (1, " ", 1.5, quebra, "olá mundo!");
+ escreva (1 + 1);
+ escreva (1 - 1);
+ escreva (1 * 1);
+ escreva (1 / 1);
+ escreva (1 + 1.5);
+ escreva (1 - 1.5);
+ escreva (1 * 1.5);
+ escreva (1.5 / 1.5);
+ escreva (1 < 3);
+ escreva (1.0 < 3.5);
+ escreva (4 < 3);
+ escreva (1 > 3);
+ escreva (1.0 > 3.5);
+ escreva (4.4 > 3.3);
+ escreva (1 = 1);
+ escreva (3.5 = 3.5);
+ escreva (1 = 3);
+ escreva (1 <> 1);
+ escreva (3.5 <> 3.5);
+ escreva (4.2 <> 3.0);
+ escreva (+1);
+ escreva (-1);
+ escreva (verdadeiro);
+ escreva (falso);
+ escreva (não verdadeiro);
+ escreva (não falso);
+ escreva (verdadeiro e verdadeiro);
+ escreva (verdadeiro e falso);
+ escreva (falso e falso);
+ escreva (verdadeiro e não falso);
+ escreva (verdadeiro ou verdadeiro);
+ escreva (verdadeiro ou falso);
+ escreva (falso ou falso);
+ escreva (verdadeiro ou não falso);
+fim

@@ -1,0 +1,5 @@
+algoritmo "exemplo 01"
+início
+ escreva (1 <= 3);
+ escreva (1.0 <= 3.0);
+fim

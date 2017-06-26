@@ -19,6 +19,7 @@ public class Memory {
 	private String input;
 	private String lastToken;
 	private String lastFileName;
+	private String lastFileCode;
 
 	public char getLastLexeme() {
 		return this.lastLexeme;
@@ -48,12 +49,24 @@ public class Memory {
 		this.input = input;
 	}
 
+	public String getInput() {
+		return this.input;
+	}
+
 	public String getLastFileName() {
 		return lastFileName;
 	}
 
 	public void setLastFileName(String lastFileName) {
 		this.lastFileName = lastFileName;
+	}
+
+	public String getLastFileCode() {
+		return lastFileCode;
+	}
+
+	public void setLastFileCode(String lastFileCode) {
+		this.lastFileCode = lastFileCode;
 	}
 
 }

@@ -329,13 +329,16 @@ public class Interface extends javax.swing.JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCompilarActionPerformed
-		//salva nome do arquivo para pegar nas actions fo semantico
-		Memory.getInstance().setLastFileName(getNameFile());
-
 		if (loadedFile.getSelectedFile() == null) {
 			areaMensagens.setText("é necessário salvar o arquivo para compilar");
 			return;
 		}
+
+		//salva nome do arquivo para pegar nas actions fo semantico
+		Memory.getInstance().setLastFileName(getNameFile());
+		writeValores(getNameFile());
+		//salva código no editor
+		Memory.getInstance().setLastFileCode(editorTexto.getText());
 
 		areaMensagens.setText("");
 		String str = editorTexto.getText();
@@ -478,8 +481,7 @@ public class Interface extends javax.swing.JFrame {
 		try {
 			String name = loadedFile.getSelectedFile().getAbsoluteFile().toString();
 			writer = new BufferedWriter(new FileWriter(name.contains(".txt") ? name : name + ".txt"));
-			// System.out.println(editorTexto.getText());
-			writer.write(editorTexto.getText());
+			editorTexto.write(writer);
 		} catch (IOException e) {
 		} finally {
 			try {
@@ -492,6 +494,24 @@ public class Interface extends javax.swing.JFrame {
 
 	}
 
+	private void writeValores(String fileName) {
+		BufferedWriter writer = null;
+		try {
+			String name = fileName;
+			writer = new BufferedWriter(new FileWriter(name.contains(".txt") ? name : name + ".txt"));
+			editorTexto.write(writer);
+		} catch (IOException e) {
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+			}
+		}
+		
+	}
+	
 	private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAbrirActionPerformed
 		// TODO add your handling code here:
 		loadedFile = new JFileChooser();

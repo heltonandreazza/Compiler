@@ -1,0 +1,40 @@
+algoritmo "exemplo"
+função minhafun (param1,param2:inteiro):lógico;
+procedimento meuproc (p1,p2:inteiro);
+variáveis
+ lado,área:inteiro;
+início
+ leia (lado);
+ área <- lado * lado;
+ escreva (área);
+ 
+ se área < 1 então 
+  área <- 10;
+ senão
+  área <- lado / área; 
+ fim;
+
+ repita 
+  a <- 10;
+  i <- i+1; 
+  se a >= 15 então
+    interrompa;
+  fim;
+ até i <= 10;
+fim
+
+função minhafun (param1,param2:inteiro):lógico;
+variáveis 
+ verdade:lógico;
+início 
+ verdade <- param1 < param2;
+ retorne verdade;
+fim
+
+procedimento meuproc (p1,p2:inteiro);
+variáveis 
+ verdade:lógico;
+início 
+ verdade <- p1 < p2;
+ retorne verdade;
+fim

@@ -1,5 +1,9 @@
 package compilador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Stack;
 
 import javax.sound.midi.Soundbank;
@@ -13,7 +17,7 @@ public class Semantico implements Constants {
 	private static final String STRING = "string";
 	private static final String BOOLEAN = "bool";
 
-	private static final String BR = "\n";
+	private static final String BR = "\r\n  ";
 	// inicializar pilha de types
 	Stack<String> pilha = new Stack();
 	// inicializar codigo String
@@ -29,87 +33,87 @@ public class Semantico implements Constants {
 
 		switch (action) {
 		case 1:
-			// add
+			// OK add
 			action1();
 			break;
 		case 2:
-			// sub
+			// OK sub
 			action2();
 			break;
 		case 3:
-			// mul
+			// OK mul
 			action3();
 			break;
 		case 4:
-			// div
+			// OK div
 			action4();
 			break;
 		case 5:
-			// cte_inteira
+			// OK cte_inteira
 			action5(token.getLexeme());
 			break;
 		case 6:
-			// cte_real
+			// OK cte_real
 			action6(token.getLexeme());
 			break;
 		case 7:
-			// write
+			// OK write
 			action7();
 			break;
 		case 8:
-			// soma unária
+			// OK soma unária
 			action8();
 			break;
 		case 9:
-			// subtração unária
+			// OK subtração unária
 			action9();
 			break;
 		case 10:
-			// relacional
+			// OK relacional
 			action10();
 			break;
 		case 11:
-			// salva ultimo operador para usar no relacional action10
+			// OK salva ultimo operador para usar no relacional action10
 			action11(token.getLexeme());
 			break;
 		case 12:
-			// boolean true
+			// OK boolean true
 			action12();
 			break;
 		case 13:
-			// boolean false
+			// OK boolean false
 			action13();
 			break;
 		case 14:
-			// negação
+			// OK negação
 			action14();
 			break;
 		case 15:
-			// Cabeçalho do programa
+			// OK Cabeçalho do programa 
 			action15(Memory.getInstance().getLastFileName());
 			break;
 		case 16:
-			// fechamento de bloco
+			// OK fechamento de bloco
 			action16();
 			break;
 		case 17:
-			// fechamento de programa
+			// OK fechamento de programa
 			action17();
 			break;
 		case 18:
-			// quebra
+			// OK quebra
 			action18();
 			break;
 		case 19:
-			// and
+			// OK and
 			action19();
 			break;
 		case 20:
-			// ou
+			// OK ou
 			action20();
 			break;
 		case 21:
-			// cte_caracter
+			// OK cte_caracter
 			action21(token.getLexeme());
 			break;
 		}
@@ -297,11 +301,33 @@ public class Semantico implements Constants {
 			break;
 		case "<=":
 			codigo += BR + "clt";
+			//TODO
+//			String[] split = codigo.split("\\r?\\n");
+//			if(split.length > 3) {
+//				String lastCommand = split[split.length - 2];
+//				String secondLastCommand = split[split.length - 3];
+//				codigo += "\r\n" + secondLastCommand;
+//				codigo += "\r\n" + lastCommand;
+//				codigo += BR + "ceq";
+//				codigo += BR + "or";
+//				break;
+//			}
 			codigo += BR + "ceq";
 			codigo += BR + "or";
 			break;
 		case ">=":
 			codigo += BR + "cgt";
+			//TODO			
+//			split = codigo.split("\\r?\\n");
+//			if(split.length > 3) {
+//				String lastCommand = split[split.length - 2];
+//				String secondLastCommand = split[split.length - 3];
+//				codigo += "\r\n" + secondLastCommand;
+//				codigo += "\r\n" + lastCommand;
+//				codigo += BR + "ceq";
+//				codigo += BR + "or";
+//				break;
+//			}
 			codigo += BR + "ceq";
 			codigo += BR + "or";
 			break;
@@ -357,11 +383,11 @@ public class Semantico implements Constants {
 	 * @param fileName
 	 */
 	private void action15(String fileName) {
-		String header = ".assembly extern mscorlib {}\n" + ".assembly " + fileName + "{}\n" + ".module " + fileName
-				+ ".exe\n\n" + ".class public _Principal{\n\n" + ".method static public void _principal()\n"
-				+ "{ .entrypoint";
+		String header = ".assembly extern mscorlib {}\r\n" + ".assembly " + fileName + "{}\r\n" + ".module " + fileName
+				+ ".exe\r\n\r\n" + ".class public _Principal{\r\n\r\n" + ".method static public void _principal()\r\n"
+				+ " { .entrypoint";
 
-		codigo += BR + header;
+		codigo += header;
 	}
 
 	/**
@@ -369,14 +395,16 @@ public class Semantico implements Constants {
 	 */
 	private void action16() {
 		codigo += BR + "ret";
-		codigo += BR + "}";
+		codigo += "\r\n }";
 	}
 
 	/**
 	 * fechamento de programa
 	 */
 	private void action17() {
-		codigo += BR + "}";
+		codigo += "\r\n}";
+		System.out.println(codigo);
+		saveFile(codigo, Memory.getInstance().getLastFileName(), "il");
 	}
 
 	/**
@@ -384,7 +412,7 @@ public class Semantico implements Constants {
 	 */
 	private void action18() {
 		pilha.push(STRING);
-		codigo += BR + "ldstr\n\"\\n\"";
+		codigo += BR + "ldstr \"\\n\"";
 	}
 
 	/**
@@ -439,6 +467,20 @@ public class Semantico implements Constants {
 		testeAction1();
 	}
 
+	private void saveFile(String content, String nameFile, String extension) {
+		File file = new File(nameFile + "." + extension);
+	    BufferedWriter writer = null;
+	    try {
+	        writer = new BufferedWriter(new FileWriter(nameFile + "." + extension));
+	        writer.write(content);
+	    } catch (IOException e) {
+	        e.printStackTrace(); // I'd rather declare method with throws IOException and omit this catch.
+	    } finally {
+	        if (writer != null) try { writer.close(); } catch (IOException ignore) {}
+	    }
+	    System.out.printf("File is located at %s%n", file.getAbsolutePath());
+	}
+	
 	private static void testeAction1() throws SemanticError {
 		Stack<String> pilha = new Stack();
 		String codigo = "";
