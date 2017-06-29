@@ -1,0 +1,23 @@
+.assembly extern mscorlib {}
+.assembly lexico{}
+.module lexico.exe
+
+.class public _Principal{
+
+.method static public void _principal()
+ { .entrypoint
+	  .locals (
+	  int64 lado,
+	  int64 area)
+	  call string [mscorlib]System.Console::Readline()
+	  call int64 [mscorlib]System.Int64::Parse(string)
+	  stloc lado
+	  ldloc lado
+	  ldloc lado
+	  mul
+	  stloc area
+	  ldloc area
+	  call void [mscorlib]System.Console::Write(int64)
+	  ret
+ }
+}

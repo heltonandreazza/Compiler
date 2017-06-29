@@ -329,15 +329,17 @@ public class Interface extends javax.swing.JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCompilarActionPerformed
-		if (loadedFile.getSelectedFile() == null) {
-			areaMensagens.setText("é necessário salvar o arquivo para compilar");
-			return;
+		compilar();
+		if (areaMensagens.getText().equals("")) {
+			Semantico.cleanCodigo();
+			areaMensagens.setText("programa compilado com sucesso");
 		}
+	}// GEN-LAST:event_btnCompilarActionPerformed
 
-		//salva nome do arquivo para pegar nas actions fo semantico
+	private void compilar() {
+		// salva nome do arquivo para pegar nas actions fo semantico
 		Memory.getInstance().setLastFileName(getNameFile());
-		writeValores(getNameFile());
-		//salva código no editor
+		// salva código no editor
 		Memory.getInstance().setLastFileCode(editorTexto.getText());
 
 		areaMensagens.setText("");
@@ -348,12 +350,16 @@ public class Interface extends javax.swing.JFrame {
 			return;
 		}
 
+		if (loadedFile.getSelectedFile() == null) {
+			areaMensagens.setText("é necessário salvar o arquivo para prosseguir");
+			return;
+		}
 		LineNumberReader in = new LineNumberReader(new StringReader(editorTexto.getText()));
 
-		compilar(in);
-	}// GEN-LAST:event_btnCompilarActionPerformed
+		compilarInput(in);
+	}
 
-	private void compilar(LineNumberReader in) {
+	private void compilarInput(LineNumberReader in) {
 		Lexico lexico = new Lexico();
 		Sintatico sintatico = new Sintatico();
 		Semantico semantico = new Semantico();
@@ -390,10 +396,6 @@ public class Interface extends javax.swing.JFrame {
 			String msg = "Erro na linha " + errorLine + " - " + e.getMessage();
 			areaMensagens.setText(msg);
 			e.printStackTrace();
-		}
-
-		if (areaMensagens.getText().equals("")) {
-			areaMensagens.setText("programa compilado com sucesso");
 		}
 	}
 
@@ -509,9 +511,9 @@ public class Interface extends javax.swing.JFrame {
 			} catch (IOException e) {
 			}
 		}
-		
+
 	}
-	
+
 	private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAbrirActionPerformed
 		// TODO add your handling code here:
 		loadedFile = new JFileChooser();
@@ -560,8 +562,35 @@ public class Interface extends javax.swing.JFrame {
 	}// GEN-LAST:event_btnAbrirActionPerformed
 
 	private void btnGerarCodigoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnGerarCodigoActionPerformed
-		areaMensagens.setText("Geração de código ainda não foi implementada");
+		compilar();
+		// salva arquivo depois de compilar
+		if (areaMensagens.getText().equals("")) {
+			writeValores(getNameFile());
+			saveFileMsil(Semantico.getCodigo(), Memory.getInstance().getLastFileName(), "il");
+			Semantico.cleanCodigo();
+			areaMensagens.setText("código objeto gerado com sucesso");
+		}
+
 	}// GEN-LAST:event_btnGerarCodigoActionPerformed
+
+	private void saveFileMsil(String content, String nameFile, String extension) {
+		File file = new File(nameFile + "." + extension);
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(nameFile + "." + extension));
+			writer.write(content);
+		} catch (IOException e) {
+			e.printStackTrace(); // I'd rather declare method with throws
+									// IOException and omit this catch.
+		} finally {
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException ignore) {
+				}
+		}
+		System.out.printf("File is located at %s%n", file.getAbsolutePath());
+	}
 
 	private void btnEquipeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEquipeActionPerformed
 		areaMensagens.setText("Alunos: \n \t Rafael Rossi \n \t Helton Andreazza");
