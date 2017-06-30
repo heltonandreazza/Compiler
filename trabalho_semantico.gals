@@ -1,0 +1,197 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = false
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+aux: [·¡‚¬„√‡¿È…Í ÌÕÓÓÛ”Ù‘ı’˙⁄˚€Á«]
+mai: [A-Z]
+min: [a-z]
+letra: {mai}|{min}
+dig: [0-9]
+
+		
+#Tokens
+// tokens genÈricos
+
+identificador: ({letra}|{aux})_?(({aux}|{letra}|{dig})_?)*
+constante_inteira: [1-9]{dig}*|{dig}
+constante_real: [1-9]{dig}*\.{dig}+
+constante_caracter: \"([^\\ \" \n]|\\ \"|\\\\)*\"
+:! #[^\n]*
+:! /\*((\*)*[^\*/]((/)+[^\*/])*)*(\*)+/
+
+// tokens especÌficos 
+
+//faca = identificador: "faÁa"
+algoritmo = identificador: "algoritmo"
+ate = identificador: "atÈ"
+caracter = identificador: "caracter"
+e = identificador: "e"
+//enquanto = identificador: "enquanto"
+entao = identificador: "ent„o"
+escreva = identificador: "escreva"
+falso = identificador: "falso"
+fim = identificador: "fim"
+funcao = identificador: "funÁ„o"
+inicio = identificador: "inÌcio"
+inteiro = identificador: "inteiro"
+interrompa = identificador: "interrompa"
+leia = identificador: "leia"
+logico = identificador: "lÛgico"
+nao = identificador: "n„o"
+ou = identificador: "ou"
+procedimento = identificador: "procedimento"
+quebra = identificador: "quebra"
+real = identificador: "real"
+repita = identificador: "repita"
+retorne = identificador: "retorne"
+se = identificador: "se"
+senao = identificador: "sen„o"
+variaveis = identificador: "vari·veis"
+verdadeiro = identificador: "verdadeiro"
+
+// tokens especÌficos: sÌmbolos especiais
+
+"+"
+"-"
+"*"
+"/"
+//"\"
+//"%"
+//"^"
+","
+":"
+";"
+"<-"
+"="
+"<>"
+"<"
+"<="
+">"
+">="
+"("
+")"
+
+
+// ignorar: caracteres de formataÁ„o e coment·rios 
+:[\s\t\n]
+#NonTerminals
+<programa>
+
+<cabecalho_modulos>
+<variaveis>
+<lista_comandos>
+<lista_modulos>
+<cabecalho>
+<declaracao_funcao>
+<declaracao_procedimento>
+<lista_parametros>
+<lista_parametro1>
+<parametro>
+<tipo>
+<lista_variaveis>
+<lista_identificadores>
+<comando>
+<atribuicao>
+<entrada>
+<saida>
+<selecao>
+<senao>
+<repeticao>
+<interrompa>
+<retorne>
+<chamada_modulo>
+<parametros_reais>
+<lista_expressoes>
+<lista_valores>
+<valor>
+<modulo>
+<funcao>
+<procedimento>
+<expressao>
+<elemento>
+<relacional>
+<operador_relacional>
+<aritmetica>
+<termo>
+<fator>
+<lista_variaveis_2>
+<lista_identificadores_2>
+<lista_expressoes_2>
+<lista_valores_2>
+<comando_2>
+<expressao_2>
+<relacional_2>
+<termo_2>
+<aritmetica_2>
+<fator_2>
+#Grammar
+//Rafael Rossi e Helton Andreazza
+
+<programa>::= #15 algoritmo constante_caracter <cabecalho_modulos><variaveis> inicio #40<lista_comandos> fim #16 <lista_modulos> #17;
+
+<cabecalho_modulos>::= Ó|<cabecalho><cabecalho_modulos>;
+<lista_modulos>::= Ó|<modulo><lista_modulos>;
+
+//cabecalho_modulos
+<cabecalho>::= <declaracao_funcao>|<declaracao_procedimento>;
+<declaracao_funcao>::= funcao identificador #33 "("<lista_parametros>")" ":"<tipo> #22 #34";";
+<declaracao_procedimento>::= procedimento identificador #33 "("<lista_parametros>")" #35 ";";
+<lista_parametros>::= Ó|<parametro><lista_parametro1>;
+<lista_parametro1>::= Ó|";"<parametro><lista_parametro1>;
+<parametro>::= <lista_identificadores>":"<tipo> #22 #36;
+<tipo>::= caracter|logico|inteiro|real;
+
+//variaveis
+<variaveis>::= Ó|variaveis<lista_variaveis>;
+<lista_variaveis>::= <lista_identificadores>":"<tipo> #22 #24 ";"<lista_variaveis_2>;
+<lista_variaveis_2>::= Ó|<lista_variaveis>;
+<lista_identificadores>::= identificador #23 <lista_identificadores_2>;
+<lista_identificadores_2>::= Ó|","<lista_identificadores>;
+
+//lista_comandos
+//<comando>::= <atribuicao>|<entrada>|<saida>|<selecao>|<repeticao>|<interrompa>|<retorne>|<chamada_modulo>;
+<lista_comandos>::= Ó|<comando>";"<lista_comandos>;
+<comando>::= identificador #23 <comando_2>|<entrada>|<saida>|<selecao>|<repeticao>|<interrompa>|<retorne>;
+<comando_2>::= "<-"<expressao> #27 | "("<parametros_reais>")" #38;
+<atribuicao>::= identificador"<-"<expressao>;
+<entrada>::= leia"("<lista_identificadores> #25 ")";
+<saida>::= escreva"("<lista_valores>")";
+<selecao>::= se <expressao> #28 entao <lista_comandos><senao> fim #29;
+<senao>::= Ó|senao #30 <lista_comandos>;
+<repeticao>::= repita #31 <lista_comandos> ate <expressao> #32;
+<interrompa>::= interrompa;
+<retorne>::= retorne <expressao>;
+<chamada_modulo>::= identificador"("<parametros_reais>")";
+<parametros_reais>::= Ó|<lista_expressoes>;
+<lista_expressoes>::= <expressao><lista_expressoes_2>;
+<lista_expressoes_2>::= Ó|","<lista_expressoes>;
+<lista_valores>::= <valor> #7 <lista_valores_2>;
+<lista_valores_2>::= Ó|","<lista_valores>;
+<valor>::= <expressao>|quebra #18;
+
+//lista_modulos
+<modulo>::= <funcao>|<procedimento>;
+<funcao>::= funcao identificador #37 <variaveis> inicio #40 <lista_comandos> fim #16;
+<procedimento>::= procedimento identificador #37 <variaveis> inicio #40 <lista_comandos> fim #16;
+
+//simbolos n„o terminais falantes
+<expressao>::= <elemento><expressao_2>;
+<expressao_2>::= Ó|e<elemento> #19 <expressao_2>|ou<elemento> #20 <expressao_2>;
+<elemento>::= <relacional> | verdadeiro #12 | falso #13 | nao<elemento> #14;
+<relacional>::= <aritmetica><relacional_2>;
+<relacional_2>::= <operador_relacional> #11 <aritmetica> #10 | Ó;
+<operador_relacional>::= "=" | "<>" | "<" | "<=" | ">" | ">=";
+<aritmetica>::= <termo><aritmetica_2>;
+<aritmetica_2>::= "+"<termo> #1 <aritmetica_2>|"-"<termo> #2 <aritmetica_2> | Ó;
+<termo>::= <fator><termo_2>;
+<termo_2>::= Ó|"*"<fator> #3 <termo_2>|"/"<fator> #4 <termo_2>;
+<fator>::= identificador #23 <fator_2>|constante_inteira #5 |constante_real #6 |constante_caracter #21 |"("<expressao>")"|"+"<fator> #8 |"-"<fator> #9;
+<fator_2>::= #26 Ó| "("<parametros_reais>")" #39;

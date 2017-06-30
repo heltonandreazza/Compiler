@@ -1,0 +1,39 @@
+algoritmo "exemplo 05"
+função media(n1, n2: real): real;
+procedimento cargaHoraria();
+variáveis
+ i: inteiro;
+ nota1, nota2, soma: real;
+início
+ i <- 0;
+ soma <- 1.0;
+ repita
+ i <- i + 1;
+ cargaHoraria();
+ escreva ("digite uma nota (enter) após outra: ",
+ quebra);
+ leia (nota1, nota2);
+ soma <- soma+
+ media (nota1, nota2);
+ até i = 3;
+ escreva (soma / 3);
+fim
+
+função media
+início
+ retorne (n1 + n2) / 2;
+fim
+
+procedimento cargaHoraria
+variáveis
+ CH: inteiro;
+ disciplina: caracter;
+início
+ escreva ("qual a disciplina? ");
+ leia (disciplina);
+ repita
+ escreva ("qual a CH da disciplina? ");
+ leia (CH);
+ até CH > 17;
+ escreva ("total de créditos: ", CH / 18, quebra);
+fim

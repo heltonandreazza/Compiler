@@ -1,6 +1,5 @@
 package compilador;
-
-public interface ParserConstants
+public interface ParserConstants_old4
 {
     int START_SYMBOL = 47;
 
@@ -61,7 +60,7 @@ public interface ParserConstants
 
     int[][] PRODUCTIONS = 
     {
-        { 110,   6,   5,  48,  49,  15, 135,  50,  13, 111,  51, 112 },
+        { 110,   6,   5,  48,  49,  15,  50,  13, 111,  51, 112 },
         {   0 },
         {  52,  48 },
         {   0 },
@@ -120,8 +119,8 @@ public interface ParserConstants
         {  23, 113 },
         {  76 },
         {  77 },
-        {  14,   2, 132,  49,  15, 135,  50,  13, 111 },
-        {  22,   2, 132,  49,  15, 135,  50,  13, 111 },
+        {  14,   2, 132,  49,  15,  50,  13, 111 },
+        {  22,   2, 132,  49,  15,  50,  13, 111 },
         {  79,  90 },
         {   0 },
         {   9,  79, 114,  90 },

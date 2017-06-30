@@ -1,9 +1,0 @@
-algoritmo "exemplo 01"
-início
- escreva (1 <= 3);
- escreva (3.0 <= 3);
- escreva (1 >= 3);
- escreva (3 >= 3);
- escreva (4 <> 3);
- escreva (3 <> 3);
-fim

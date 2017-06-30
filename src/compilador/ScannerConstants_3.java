@@ -1,6 +1,6 @@
 package compilador;
 
-public interface ScannerConstants
+public interface ScannerConstants_3
 {
     int[] SCANNER_TABLE_INDEXES = 
     {
@@ -1625,40 +1625,40 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-            "símbolo inválido",
-            "",
-            "constante caracter inválida ou não finalizada",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",	
-            "",
-            "constante caracter inválida ou não finalizada",
-            "comentário de bloco inválido ou não finalizado",
-            "constante real inválida ou não finalizada",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "comentário de bloco inválido ou não finalizado",
-            "comentário de bloco inválido ou não finalizado",
-            "",
-            "comentário de bloco inválido ou não finalizado",
-            ""
+        "símbolo inválido",
+        "",
+        "constante caracter inválida ou não finalizada",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",	
+        "",
+        "constante caracter inválida ou não finalizada",
+        "comentário de bloco inválido ou não finalizado",
+        "constante real inválida ou não finalizada",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "comentário de bloco inválido ou não finalizado",
+        "comentário de bloco inválido ou não finalizado",
+        "",
+        "comentário de bloco inválido ou não finalizado",
+        ""
     };
 
 }
